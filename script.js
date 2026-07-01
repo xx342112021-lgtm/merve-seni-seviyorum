@@ -1,3 +1,5 @@
+let isPlaying = false;
+
 function showSurprise() {
     const surprise = document.getElementById('surprise');
     surprise.classList.toggle('hidden');
@@ -6,9 +8,25 @@ function showSurprise() {
     }
 }
 
+function toggleMusic() {
+    const audio = document.getElementById('backgroundMusic');
+    const btn = document.getElementById('musicBtn');
+    
+    if (isPlaying) {
+        audio.pause();
+        btn.classList.remove('playing');
+        btn.textContent = '🎵 Müzik Çal';
+        isPlaying = false;
+    } else {
+        audio.play().catch(err => console.log('Müzik çalma hatası:', err));
+        btn.classList.add('playing');
+        btn.textContent = '⏸️ Müzik Durdur';
+        isPlaying = true;
+    }
+}
+
 function playMusic() {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    playRomanticMelody(audioContext);
+    toggleMusic();
 }
 
 function playRomanticMelody(audioContext) {
@@ -85,6 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
             createHeartRain(e.clientX, e.clientY);
         }
     });
+
+    // Müzik döngüde çalması için
+    const audio = document.getElementById('backgroundMusic');
+    if (audio) {
+        audio.loop = true;
+    }
 });
 
 function createHeartRain(x, y) {

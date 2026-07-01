@@ -8,6 +8,7 @@
 </head>
 <body>
     <div class="background">
+        <img src="/manus-storage/merve-romantic_443444f8.png" alt="Romantic Background" class="bg-image">
         <div class="stars"></div>
     </div>
 
@@ -36,7 +37,7 @@
 
             <div class="button-group">
                 <button class="btn btn-primary" onclick="showSurprise()">Sürpriz Aç</button>
-                <button class="btn btn-secondary" onclick="playMusic()">Müzik Çal</button>
+                <button class="btn btn-secondary" id="musicBtn" onclick="toggleMusic()">🎵 Müzik Çal</button>
             </div>
 
             <div id="surprise" class="surprise hidden">
@@ -51,6 +52,8 @@
             <p>Seninle Sonsuza Kadar ✨</p>
         </div>
     </div>
+
+    <audio id="backgroundMusic" src="/music.mp3"></audio>
 
     <script src="/script.js"></script>
 </body>
