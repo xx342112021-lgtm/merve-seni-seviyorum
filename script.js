@@ -104,10 +104,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Müzik döngüde çalması için
+    // Müzik otomatik olarak çalsın
     const audio = document.getElementById('backgroundMusic');
+    const btn = document.getElementById('musicBtn');
     if (audio) {
         audio.loop = true;
+        // Sayfa yüklenince müzik otomatik çal
+        audio.play().then(() => {
+            btn.classList.add('playing');
+            btn.textContent = '⏸️ Müzik Durdur';
+            isPlaying = true;
+        }).catch(err => {
+            console.log('Otomatik müzik çalma başarısız (tarayıcı izni gerekli):', err);
+        });
     }
 });
 
