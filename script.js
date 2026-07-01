@@ -18,6 +18,7 @@ function toggleMusic() {
         btn.textContent = '🎵 Müzik Çal';
         isPlaying = false;
     } else {
+        audio.muted = false;
         audio.play().catch(err => console.log('Müzik çalma hatası:', err));
         btn.classList.add('playing');
         btn.textContent = '⏸️ Müzik Durdur';
@@ -107,15 +108,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Müzik otomatik olarak çalsın
     const audio = document.getElementById('backgroundMusic');
     const btn = document.getElementById('musicBtn');
+    
     if (audio) {
-        audio.loop = true;
-        // Sayfa yüklenince müzik otomatik çal
-        audio.play().then(() => {
-            btn.classList.add('playing');
-            btn.textContent = '⏸️ Müzik Durdur';
-            isPlaying = true;
-        }).catch(err => {
-            console.log('Otomatik müzik çalma başarısız (tarayıcı izni gerekli):', err);
+        // Autoplay izni için user interaction'a bekle
+        document.addEventListener('click', function enableAudio() {
+            if (!isPlaying) {
+                audio.muted = false;
+                audio.play().then(() => {
+                    btn.classList.add('playing');
+                    btn.textContent = '⏸️ Müzik Durdur';
+                    isPlaying = true;
+                    document.removeEventListener('click', enableAudio);
+                }).catch(err => {
+                    console.log('Müzik çalma başarısız:', err);
+                });
+            }
+        }, { once: true });
+
+        // Sayfa yüklenince muted ile başla
+        audio.muted = true;
+        audio.play().catch(err => {
+            console.log('Muted müzik başlatma hatası:', err);
         });
     }
 });
